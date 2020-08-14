@@ -1,0 +1,100 @@
+.app {
+    font-size: 16px;
+    font-family: "Courier New", Courier, monospace;
+    font-weight: 700;
+}
+
+.gameContainer {
+    padding-top: 64px;
+    display: flex;
+    justify-content: center;
+}
+
+.game {
+    /* position: relative; */
+    overflow: hidden;
+    width: 512px;
+    height: 778px;
+    background: rgb(255, 255, 255);
+}
+
+/* TODO: move to separate file */
+.mapContainer {
+    padding: 32px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px solid #006848;
+    line-height: 16px;
+    letter-spacing: 1px;
+}
+
+/* TODO: move to separate file */
+.map {
+    width: 256px;
+    height: 256px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: double;
+}
+
+/* TODO: move to separate file */
+.promptContainer {
+    padding: 16px;
+    height: 256px;
+    overflow: scroll;
+    border: 2px solid #006848;
+
+    overflow-x: hidden;
+    cursor: text;
+
+    white-space: pre-wrap;
+    display: flex;
+    flex-direction: column;
+}
+
+/* TODO: move to separate file */
+.prompt {
+    
+}
+
+.terminalContent {
+    padding: 20px;
+    font-size: 15px;
+    line-height: 20px;
+    white-space: pre-wrap;
+    color: #aaa;
+    font-family: monospace;
+    display: flex;
+    flex-direction: column;
+}
+
+.terminalInput {
+    font-family: inherit;
+    font-size: inherit;
+    font-size: inherit;
+    background: transparent;
+    border: 0px;
+    outline: none; /* no highlight on focus */
+    width: 100%;
+}
+
+.terminalInputArea {
+    display: inline-flex;
+    width: 100%;
+    align-items: center;
+}
+
+.terminalPrompt {
+    margin-right: 5px;
+}
+
+.terminalErrorGroup { 
+    display: flex;
+    flex-direction: column;
+    color: red;
+}
+
+
