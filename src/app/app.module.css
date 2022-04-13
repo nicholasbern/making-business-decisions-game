@@ -11,7 +11,6 @@
 }
 
 .game {
-    /* position: relative; */
     overflow: hidden;
     width: 512px;
     height: 778px;
@@ -26,13 +25,14 @@
     justify-content: center;
 
     border: 2px solid #006848;
+    border-radius: 5px;
     line-height: 16px;
     letter-spacing: 1px;
 }
 
 /* TODO: move to separate file */
 .map {
-    width: 256px;
+    width: 384px;
     height: 256px;
     display: flex;
     align-items: center;
@@ -40,12 +40,17 @@
     text-decoration: double;
 }
 
+.separator {
+    padding: 16px;
+}
+
 /* TODO: move to separate file */
-.promptContainer {
+.terminalContainer {
     padding: 16px;
     height: 256px;
     overflow: scroll;
     border: 2px solid #006848;
+    border-radius: 5px;
 
     overflow-x: hidden;
     cursor: text;
@@ -53,11 +58,6 @@
     white-space: pre-wrap;
     display: flex;
     flex-direction: column;
-}
-
-/* TODO: move to separate file */
-.prompt {
-    
 }
 
 .terminalContent {
@@ -74,10 +74,9 @@
 .terminalInput {
     font-family: inherit;
     font-size: inherit;
-    font-size: inherit;
+    font-weight: inherit;
     background: transparent;
     border: 0px;
-    outline: none; /* no highlight on focus */
     width: 100%;
 }
 
@@ -85,13 +84,14 @@
     display: inline-flex;
     width: 100%;
     align-items: center;
+    /* TODO: make so when click doesn't highlight */
 }
 
 .terminalPrompt {
     margin-right: 5px;
 }
 
-.terminalErrorGroup { 
+.terminalErrorMessage { 
     display: flex;
     flex-direction: column;
     color: red;

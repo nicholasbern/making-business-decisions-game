@@ -1,26 +1,22 @@
 import React from 'react';
 
 import {Map} from './map/map';
-import {Prompt} from './prompt/prompt';
+import {Terminal} from './terminal/terminal';
+import {StateProvider} from './store';
 
 import styles from './app.module.css';
 
 
-const Game = () => {
-
-    const game = 'none'; // this will be the 
-
-    return (
+const Game = () => 
+    <StateProvider>
         <div className={styles.gameContainer}>
             <div className={styles.game}>
-            {/* <Badges/> */}
-            <Map/>
-            <div style={{padding: '16px'}}/>
-            <Prompt/>
+                {/* <Badges/> */}
+                <Map />
+                <div className={styles.separator}/>
+                <Terminal />
             </div>
         </div>
-    )
-    
-}
+    </StateProvider>
 
 export {Game}
