@@ -54,21 +54,21 @@ const gameReducer = (state: GameState, action: GameActions): GameState => {
     switch(action.type) {
         case ActionType.EnterLevel:
             // TODO: play an opening bit of the game that just returns a string
-            return {...state, playingLevel: true, output: ["Here's a new game, let's try it out."]};
+            return {...state, playingLevel: true, output: [...state.output, "Here's a new game, let's try it out."]};
         case ActionType.LeaveLevel:
-            return {...state, playingLevel: false, output: ["Leaving the level. Go back to keep trying."]};
+            return {...state, playingLevel: false, output: [...state.output, "Leaving the level. Go back to keep trying."]};
         case ActionType.ProcessInput:
-            let output = [];
+            let output = "";
             if (state.playingLevel) {
                 const levelReturn = state.levelState.activeFunction(action.payload.input);
                 if (levelReturn.completed) {
                     // TODO: go to next active function, try to avoid an additional number
                 }
-                output = [levelReturn.output]
+                output = levelReturn.output
             } else {
-                output = ["Go to a level if you want to do something. Right now you're kinda in limbo."];
+                output = "Go to a level if you want to do something. Right now you're kinda in limbo.";
             }
-            return {...state, output};
+            return {...state, output: [...state.output, output]};
         default:
             throw new Error();
     };

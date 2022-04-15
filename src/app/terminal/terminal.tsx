@@ -8,9 +8,7 @@ import { gameContext, processInput as processUserInput} from "../store";
 import styles from '../app.module.css';
 
 
-interface TerminalProps {}
-
-const Terminal = (props: TerminalProps) => {
+const Terminal = () => {
     const [history, setHistory] = useState<string[]>([]);
     const [historyIndex, setHistoryIndex] = useState(0);
     // TODO: delete or use state
@@ -25,12 +23,9 @@ const Terminal = (props: TerminalProps) => {
 
     useEffect(scrollLastInputTop, [output]);
 
-    // TODO: handle the output and make it put out
-    // TODO: maybe this needs to go somewhere else?
-    // setOutput([...output, inputRecord]);
-
     const processInput = (input: string) => {
         // store a record of this input with a ref to allow us to scroll it into view.
+        // TODO: actually do this, maybe by adding the input the output in the reducer
         const inputRecord = (
             <div ref={(el) => (scrollRef.current = el)}>
               <span className={styles.terminalPrompt}>{TerminalPrompt}</span>{" "}

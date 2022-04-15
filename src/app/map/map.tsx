@@ -1,49 +1,38 @@
 import React, { KeyboardEventHandler, useContext, useState } from 'react';
 
-import styles from '../app.module.css';
-import { checkWithinBounds } from './utils';
-import { challengeTile, heroTile, map, numMapColumns, roadTile, Tile } from '../constants';
+import { challengeTile, emptyTile, heroTile, map, MapVision, PositionTile, roadTile, Tile } from '../constants';
 import {gameContext, leaveLevel, enterLevel } from '../store';
+
+import styles from '../app.module.css';
 
 
 interface SquareProps {
     row: number, 
     column: number, 
-    rowIdx: number, 
-    columnIdx: number, 
     tile: Tile
 }
 
 // TODO: fix this
 const Square = (props: SquareProps) => {
-    const key = props.row * numMapColumns + props.column;
-    // TODO: fix this
-    if (checkWithinBounds(
-            props.rowIdx, 
-            props.columnIdx, 
-            Math.max(props.row - 3, 0), 
-            Math.min(props.row + 3, 6),
-            Math.max(props.column - 4, 0), 
-            Math.min(props.column + 4, 6))) {
-        if (props.row === props.rowIdx && props.column === props.columnIdx) {
-            // TODO: redundant with the constants file
-            return <span key={key} style={{color: '#006848'}}>{'@'}</span>
-        } else {
-            return <span key={key} style={{color: props.tile.color}}>{props.tile.ascii}</span>;
-        }
-    } else {
-        return <span key={key} style={{color: props.tile.color}}>{ }</span>;
-    }
+    // TODO: fix key
+    return <span key={-1} style={{color: props.tile.color}}>{props.tile.ascii}</span>;
 }
 
-// TODO: fix this
-const Path = (props: {gameMap: Tile[][], row: number, column: number}) => (
+
+interface PathProps {
+    visualMap: Tile[][], 
+    row: number, 
+    column: number
+}
+
+const Path = (props: PathProps) => (
     <div className={styles.map}>
         <div>
-            {props.gameMap.map((row, rowIdx) => 
-                <div key={rowIdx}>
+            {props.visualMap.map((row, rowIdx) => 
+                // TODO: fix key
+                <div key={-1}>
                     {row.map((tile, columnIdx) =>
-                        <Square key={columnIdx} row={props.row} column={props.column} rowIdx={rowIdx} columnIdx={columnIdx} tile={tile}/>
+                        <Square row={props.row} column={props.column} tile={tile}/>
                     )}
                 </div>
             )}
@@ -51,21 +40,53 @@ const Path = (props: {gameMap: Tile[][], row: number, column: number}) => (
     </div>
 )
 
-interface MapProps {}
+const createVisualMap = (map: PositionTile[], position: number[]): {visualMap: Tile[][], minRow: number, minColumn: number} => {
+    const rows = map.map((positionTile: PositionTile) => positionTile.position[0])
+    const columns = map.map((positionTile: PositionTile) => positionTile.position[1])
 
-const Map = (props: MapProps) => {
-    const [position, setPosition] = useState([3, 4]);
-    const { dispatch } = useContext(gameContext);
+    const minRow = Math.min(...rows) - MapVision;
+    const maxRow = Math.max(...rows) + MapVision;
+    const minColumn = Math.min(...columns) - MapVision;
+    const maxColumn = Math.max(...columns) + MapVision;
+
+    const visualMap = Array.from(
+        {length: maxRow - minRow}, 
+        () => Array.from(
+            {length: maxColumn - minColumn}, 
+            () => emptyTile
+        )
+    )
+
+    map.forEach((positionTile: PositionTile) => {
+       const {tile, position: [row, column]} = positionTile;
+       visualMap[row - minRow][column - minColumn] = tile;
+    });
+
+    // TODO: probably put this somewhere else
+    visualMap[position[0] - minRow][position[1] - minColumn] = heroTile;
+
+    // TODO: incorporate invisible tiles
+
+    // TODO: don't do this
+    return {visualMap, minRow, minColumn};
+}
+
+const Map = () => {
+    const [position, setPosition] = useState([0, 0]);
+    const { dispatch, state: {playingLevel} } = useContext(gameContext);
+
+    const {visualMap, minRow, minColumn} = createVisualMap(map, position);
 
     const traverseMap = (row: number, column: number) => {
-        if (checkWithinBounds(row, column, 0, map.length, 0, map[0].length)) {
-            if (map[row][column].type === roadTile.type) {
-                setPosition([row, column]);
+        const tile = visualMap[row - minRow][column - minColumn]; // TODO: need to fix this, and probably get special getters and setterss
+        if (tile.type === roadTile.type) {
+            setPosition([row, column]);
+            if (playingLevel) {
                 dispatch(leaveLevel()); //TODO: only do this if just leaving level
-            } else if (map[row][column].type === challengeTile.type) {
-                setPosition([row, column]);
-                dispatch(enterLevel());
             }
+        } else if (visualMap[row - minRow][column - minColumn].type === challengeTile.type) {
+            setPosition([row, column]);
+            dispatch(enterLevel());
         }
     }
 
@@ -81,22 +102,12 @@ const Map = (props: MapProps) => {
         }
     }
 
-    // TODO: don't do this
-    const displayMap = map.map(
-        (row, rowIdx) => row.map(
-            (element, elementIdx) => {
-                if (rowIdx === position[0] && elementIdx === position[1])
-                    return heroTile;
-                return element;
-            }
-        )
-    );
-
     return (
         <div tabIndex={-1}
             onKeyDown={handleKeyDown}
-            className={styles.mapContainer}>
-            <Path row={position[0]} column={position[1]} gameMap={displayMap}/>
+            className={styles.mapContainer}
+        >
+            <Path row={position[0]} column={position[1]} visualMap={visualMap}/>
         </div>
     )
 }

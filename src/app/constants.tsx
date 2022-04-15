@@ -6,6 +6,7 @@ type BaseTile = {
     color: string;
 }
 
+type InvisibleTile = BaseTile;
 type EmptyTile = BaseTile;
 type RoadTile = BaseTile & {
     available: boolean;
@@ -15,25 +16,33 @@ type ChallengeTile = BaseTile & {
 }
 type HeroTile = BaseTile;
 
-export type Tile = EmptyTile | RoadTile | ChallengeTile | HeroTile;
+export type Tile = InvisibleTile | EmptyTile | RoadTile | ChallengeTile | HeroTile;
 
+const invisibleTile = {type: 'empty', ascii: '~', color: 'white'} // TODO: use or delete
 const emptyTile: Tile = {type: 'empty', ascii: '~', color: 'grey'}
 const roadTile: RoadTile = {type: 'road', ascii: '#', color: 'black', available: false}
 const challengeTile: ChallengeTile = {type: 'challenge', ascii: '$', color: 'black', challenge: 0}
 const heroTile: Tile = {type: 'hero', ascii: '@', color: '#006848'}
 
-// TODO: rewrite to be generative
-const map = [
-    [emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile,     emptyTile, emptyTile], 
-    [emptyTile, emptyTile, emptyTile, emptyTile, roadTile,  roadTile,  challengeTile, emptyTile, emptyTile],
-    [emptyTile, emptyTile, emptyTile, emptyTile, roadTile,  emptyTile, emptyTile,     emptyTile, emptyTile], 
-    [emptyTile, emptyTile, emptyTile, emptyTile, roadTile,  emptyTile, emptyTile,     emptyTile, emptyTile], 
-    [emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile,     emptyTile, emptyTile], 
-    [emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile, emptyTile,     emptyTile, emptyTile], 
+export interface PositionTile {
+    position: number[],
+    tile: Tile
+}
+
+// TODO: move this around
+const mapLevel1: PositionTile[] = [
+    {position: [0, 0], tile: roadTile}, 
+    {position: [-1, 0], tile: roadTile}, 
+    {position: [-2, 0], tile: roadTile},
+    {position: [-2, 1], tile: roadTile},
+    {position: [-2, 2], tile: roadTile},
+    {position: [-2, 3], tile: challengeTile},
 ];
 
-// TODO: rewrite to be generative
-const numMapColumns = map[0].length;
+// TODO: figure out a better way to do thiss
+let map = mapLevel1;
+
+const MapVision = 3;
 
 const echoCommands = [
     "help",
@@ -59,4 +68,4 @@ const TerminalPrompt = '>';
 
 const IntroMessage = ["Welcome to the MDM game. A series of levels in an open world will test your ability to make decisions"];
 
-export {emptyTile, roadTile, challengeTile, heroTile, map, TerminalPrompt, numMapColumns, IntroMessage}
+export {emptyTile, roadTile, challengeTile, heroTile, TerminalPrompt, map, MapVision, IntroMessage}
