@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/making-business-decisions-game/static/css/main.95bd0661.css",
-    "main.js": "/making-business-decisions-game/static/js/main.8ab4f981.js",
+    "main.js": "/making-business-decisions-game/static/js/main.b69daade.js",
     "index.html": "/making-business-decisions-game/index.html",
     "main.95bd0661.css.map": "/making-business-decisions-game/static/css/main.95bd0661.css.map",
-    "main.8ab4f981.js.map": "/making-business-decisions-game/static/js/main.8ab4f981.js.map"
+    "main.b69daade.js.map": "/making-business-decisions-game/static/js/main.b69daade.js.map"
   },
   "entrypoints": [
     "static/css/main.95bd0661.css",
-    "static/js/main.8ab4f981.js"
+    "static/js/main.b69daade.js"
   ]
 }
