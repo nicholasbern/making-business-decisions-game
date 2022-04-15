@@ -1,7 +1,7 @@
 {
   "name": "decision-game",
   "version": "0.1.0",
-  "homepage": "https://nicholasbern.github.io/react-gh-pages",
+  "homepage": "https://nicholasbern.github.io/making-business-decisions-game",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.0",
