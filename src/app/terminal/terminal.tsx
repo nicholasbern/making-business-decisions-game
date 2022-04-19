@@ -2,8 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 
 import TerminalOutput from "./terminal_output";
 import InputArea from "./input_area";
-import { TerminalPrompt } from "../constants";
-import { gameContext, processInput as processUserInput} from "../store";
+import {TerminalPrompt} from "../constants";
+import {gameContext, processInput as processUserInput} from "../store";
 
 import styles from '../app.module.css';
 
@@ -11,8 +11,7 @@ import styles from '../app.module.css';
 const Terminal = () => {
     const [history, setHistory] = useState<string[]>([]);
     const [historyIndex, setHistoryIndex] = useState(0);
-    // TODO: delete or use state
-    const { dispatch, state: {output} } = useContext(gameContext );
+    const {dispatch, state: {output}} = useContext(gameContext);
 
     const inputRef = React.useRef<HTMLInputElement>(null);
     const scrollRef = React.useRef<HTMLDivElement | null>(null);
@@ -24,15 +23,6 @@ const Terminal = () => {
     useEffect(scrollLastInputTop, [output]);
 
     const processInput = (input: string) => {
-        // store a record of this input with a ref to allow us to scroll it into view.
-        // TODO: actually do this, maybe by adding the input the output in the reducer
-        const inputRecord = (
-            <div ref={(el) => (scrollRef.current = el)}>
-              <span className={styles.terminalPrompt}>{TerminalPrompt}</span>{" "}
-              <span>{input}</span>
-            </div>
-        );
-
         // add input to to history if the input is not empty
         if (input.trim()) {
             setHistory([...history, input]);
@@ -41,8 +31,22 @@ const Terminal = () => {
 
         const processedInput = input.toLowerCase();
       
+        // store a record of this input with a ref to allow us to scroll it into view.
+        // TODO: get rid of this and apply it to the last output so it doesn't go off the page
+        const inputElement = (
+            <div ref={el => scrollRef.current = el}>
+                <span className={styles.terminalPrompt}>
+                    {TerminalPrompt}
+                </span>
+                {" "}
+                <span>
+                    {input}
+                </span>
+            </div>
+        );
+
         // TODO: figure out a way to make these names different
-        dispatch(processUserInput(processedInput));
+        dispatch(processUserInput(processedInput, inputElement));
     };
 
     const getHistory = (direction: "up" | "down") => {
@@ -64,8 +68,12 @@ const Terminal = () => {
         inputRef.current?.focus();
     };
 
+    const onClick = (event: React.MouseEvent<HTMLDivElement>) => {
+        inputRef.current?.focus();
+    }
+
     return (
-        <div tabIndex={-1} onKeyDown={focusInputArea} className={styles.terminalContainer}>
+        <div onKeyDown={focusInputArea} onClick={onClick} className={styles.terminalContainer}>
             <TerminalOutput outputs={output} />
             <InputArea
                 processInput={processInput}

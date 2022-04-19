@@ -1,28 +1,13 @@
-import React, { KeyboardEventHandler, useContext, useState } from 'react';
+import React, {KeyboardEventHandler, useContext, useState} from 'react';
 
-import { challengeTile, emptyTile, heroTile, map, MapVision, PositionTile, roadTile, Tile } from '../constants';
-import {gameContext, leaveLevel, enterLevel } from '../store';
+import {challengeTile, emptyTile, heroTile, MapVision, PositionTile, roadTile, Tile} from '../constants';
+import {gameContext, leaveLevel, enterLevel} from '../store';
 
 import styles from '../app.module.css';
 
 
-interface SquareProps {
-    row: number, 
-    column: number, 
-    tile: Tile
-}
-
-// TODO: fix this
-const Square = (props: SquareProps) => {
-    // TODO: fix key
-    return <span key={-1} style={{color: props.tile.color}}>{props.tile.ascii}</span>;
-}
-
-
 interface PathProps {
-    visualMap: Tile[][], 
-    row: number, 
-    column: number
+    visualMap: Tile[][],
 }
 
 const Path = (props: PathProps) => (
@@ -30,9 +15,15 @@ const Path = (props: PathProps) => (
         <div>
             {props.visualMap.map((row, rowIdx) => 
                 // TODO: fix key
-                <div key={-1}>
+                <div key={rowIdx}>
                     {row.map((tile, columnIdx) =>
-                        <Square row={props.row} column={props.column} tile={tile}/>
+                       // TODO: pull ou the tile
+                        <span 
+                            key={columnIdx} 
+                            style={{color: props.visualMap[rowIdx][columnIdx].color}}
+                        >
+                            {props.visualMap[rowIdx][columnIdx].ascii}
+                        </span>
                     )}
                 </div>
             )}
@@ -73,7 +64,7 @@ const createVisualMap = (map: PositionTile[], position: number[]): {visualMap: T
 
 const Map = () => {
     const [position, setPosition] = useState([0, 0]);
-    const { dispatch, state: {playingLevel} } = useContext(gameContext);
+    const { dispatch, state: {playingLevel, map} } = useContext(gameContext);
 
     const {visualMap, minRow, minColumn} = createVisualMap(map, position);
 
@@ -107,7 +98,7 @@ const Map = () => {
             onKeyDown={handleKeyDown}
             className={styles.mapContainer}
         >
-            <Path row={position[0]} column={position[1]} visualMap={visualMap}/>
+            <Path visualMap={visualMap}/>
         </div>
     )
 }

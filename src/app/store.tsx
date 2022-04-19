@@ -2,17 +2,22 @@ import React, {useReducer} from 'react';
 
 import { IntroMessage } from './constants';
 import {levels, LevelState} from './levels';
+import {maps, PositionTile} from './constants';
 
 
 interface GameState {
+    level: number, // TODO: do this better, you nimrod
     levelState: LevelState,
     playingLevel: boolean,
+    map: PositionTile[],
     output: (string | JSX.Element)[]
 }
 
 const initialGameState: GameState = {
+    level: 0,
     levelState: levels[0], // TODO: figure out way to complete the game
     playingLevel: false,
+    map: maps[0],
     output: IntroMessage
 };
 
@@ -32,7 +37,7 @@ interface LeaveLevel {
 
 interface ProcessInput {
     type: ActionType.ProcessInput,
-    payload: {input: string}
+    payload: {input: string, inputElement: JSX.Element}
 }
 
 type GameActions = EnterLevel | LeaveLevel | ProcessInput;
@@ -45,30 +50,36 @@ const leaveLevel = (): LeaveLevel => ({
     type: ActionType.LeaveLevel
 });
 
-const processInput = (input: string): ProcessInput => ({
+const processInput = (input: string, inputElement: JSX.Element): ProcessInput => ({
     type: ActionType.ProcessInput,
-    payload: {input},
+    payload: {input, inputElement},
 });
 
 const gameReducer = (state: GameState, action: GameActions): GameState => {
     switch(action.type) {
         case ActionType.EnterLevel:
             // TODO: play an opening bit of the game that just returns a string
-            return {...state, playingLevel: true, output: [...state.output, "Here's a new game, let's try it out."]};
+            const {output} = state.levelState.activeFunction("");
+            return {...state, playingLevel: true, output: [...state.output, "Here's a new game, let's try it out.", output]};
         case ActionType.LeaveLevel:
             return {...state, playingLevel: false, output: [...state.output, "Leaving the level. Go back to keep trying."]};
         case ActionType.ProcessInput:
-            let output = "";
+            let processOutput = "";
             if (state.playingLevel) {
                 const levelReturn = state.levelState.activeFunction(action.payload.input);
                 if (levelReturn.completed) {
-                    // TODO: go to next active function, try to avoid an additional number
+                    // TODO: do this better, you nimrod
+                    state.level = state.level + 1;
+                    state.levelState = levels[state.level];
+                    // TODO: this is unimaginably bad
+                    state.map.push(...maps[state.level]);
+                    state.levelState = levels[state.level];
                 }
-                output = levelReturn.output
+                processOutput = levelReturn.output
             } else {
-                output = "Go to a level if you want to do something. Right now you're kinda in limbo.";
+                processOutput = "Go to a level if you want to do something. Right now you're kinda in limbo.";
             }
-            return {...state, output: [...state.output, output]};
+            return {...state, output: [...state.output, action.payload.inputElement, processOutput]};
         default:
             throw new Error();
     };

@@ -39,8 +39,16 @@ const mapLevel1: PositionTile[] = [
     {position: [-2, 3], tile: challengeTile},
 ];
 
-// TODO: figure out a better way to do thiss
-let map = mapLevel1;
+const mapLevel2: PositionTile[] = [
+    {position: [-2, 4], tile: roadTile},
+    {position: [-2, 5], tile: roadTile},
+    {position: [-2, 6], tile: roadTile},
+    {position: [-1, 6], tile: challengeTile},
+
+];
+
+// TODO: figure out a better way to do this
+const maps = [mapLevel1, mapLevel2];
 
 const MapVision = 3;
 
@@ -68,4 +76,4 @@ const TerminalPrompt = '>';
 
 const IntroMessage = ["Welcome to the MDM game. A series of levels in an open world will test your ability to make decisions"];
 
-export {emptyTile, roadTile, challengeTile, heroTile, TerminalPrompt, map, MapVision, IntroMessage}
+export {emptyTile, roadTile, challengeTile, heroTile, TerminalPrompt, maps, MapVision, IntroMessage}

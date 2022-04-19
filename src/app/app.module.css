@@ -71,6 +71,16 @@
     flex-direction: column;
 }
 
+.terminalInputArea {
+    display: inline-flex;
+    width: 100%;
+    align-items: center;
+}
+
+.terminalPrompt {
+    margin-right: 5px;
+}
+
 .terminalInput {
     font-family: inherit;
     font-size: inherit;
@@ -80,15 +90,8 @@
     width: 100%;
 }
 
-.terminalInputArea {
-    display: inline-flex;
-    width: 100%;
-    align-items: center;
-    /* TODO: make so when click doesn't highlight */
-}
-
-.terminalPrompt {
-    margin-right: 5px;
+.terminalInput:focus {
+    outline: none;
 }
 
 .terminalErrorMessage { 
