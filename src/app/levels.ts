@@ -13,20 +13,20 @@ const errorLevelFunction = (input: string) => {
     return {completed: false, output: "ERROR, this shouldn't be showing up!!!"};
 }
 
-const testLevelFunction0 = (input: string) => {
-    testLevelState.activeFunction = testLevelFunction1; // TODO: this seems bad
+const probabilityLevelFunction0 = (input: string) => {
+    probabilityLevelState.activeFunction = probabilityLevelFunction1; // TODO: this seems bad
     return {
         completed: false, 
         output: 
-"You're rushing between interviews on campus and swing by one of the vending machines. \
-There's a new sign on today: \"50% chance of working, 75% off!\" \n\
-You want to figure out if you're getting a deal if you put your money in, and you're willing to buy a few 1 Euro sticks of gum. \n\
+"You're rushing between interviews on campus and swing by an INSEAD vending machine. \
+There's a new sign on today: \"50% chance of working, 75% off the price!\" \n\
+It sounds like a deal, but you want to verify. You're willing to buy a few 1 Euro sticks of gum to be certain. \n\
 Press any key to continue..."
     };
 }
 
-const testLevelFunction1 = (input: string) => {
-    testLevelState.activeFunction = testLevelFunction2; // TODO: this seems bad
+const probabilityLevelFunction1 = (input: string) => {
+    probabilityLevelState.activeFunction = probabilityLevelFunction2; // TODO: this seems bad
     return {
         completed: false, 
         output: 
@@ -38,7 +38,7 @@ Valid inputs include: \"1\", \"2\", and \"3\""
     };
 }
 
-const testLevelFunction2 = (input: string) => {
+const probabilityLevelFunction2 = (input: string) => {
     if (input === "1") {
         if (Math.random() > .95) {
             return {
@@ -53,14 +53,14 @@ const testLevelFunction2 = (input: string) => {
     } else if (input === "2") {
         return {completed: false, output: "Oops! Do you need to buy more gum to figure out the answer? Try again!"};
     } else if (input === "3") {
-        testLevelState.activeFunction = errorLevelFunction; // TODO: this seems bad
+        probabilityLevelState.activeFunction = errorLevelFunction; // TODO: this seems bad
         return {completed: true, output: "That's correct, the machine only work 5% of the time, so that's some expensive gum. Great job!"};
     } 
-    return {completed: false, output: "Valid inputs include: \"1\", \"2\", and \"3\""};;
+    return {completed: false, output: "Valid inputs include: \"1\", \"2\", and \"3\""};
 }
 
-const testLevelState: LevelState = {
-    activeFunction: testLevelFunction0
+const probabilityLevelState: LevelState = {
+    activeFunction: probabilityLevelFunction0
 }
 
 const jobOffersLevelFunction0 = (input: string) => {
@@ -68,7 +68,7 @@ const jobOffersLevelFunction0 = (input: string) => {
     return {
         completed: false, 
         output: 
-"Congrats to your job offers! Don't get cocky! \
+"Congrats on your job offers! Don't get cocky! \
 Now it's time to choose and you reach out to some alums to get their perspective. \n\
 To best evaluate your offers, which INSEAD alums should you talk to? \n\
 Press any key to continue..."
@@ -106,7 +106,7 @@ Those people may have just one perspective. \n\
 Try again!"
         };
     }
-    return {completed: false, output: "Valid inputs include: \"1\", \"2\", and \"3\"."};;
+    return {completed: false, output: "Valid inputs include: \"1\", \"2\", and \"3\"."};
 }
 
 const jobOffersLevelState: LevelState = {
@@ -131,9 +131,9 @@ const workProjectLevelFunction1 = (input: string) => {
         completed: false, 
         output: 
 "Do you think your technical skills would allow you to take on this project? \n\
-You can choose to: \n\
-  1. I'm sure I can understand these techniques on the spot. Also, my boss wants our team to look good this year, so I help our team achieve the goal. \n\
-  2. I'm not sure. I think I need to reevaluate a bit. Maybe I will ask someone who has done similar projects before. \n\
+You can tell your director: \n\
+  1. \"Yes\". You're sure you can understand these techniques on the spot. Also, your boss wants your team to look good this year, so you can help our team achieve the goal. \n\
+  2. \"I'm not sure\". You think you need to reevaluate a bit. Maybe you will ask someone who has done similar projects before. \n\
 Valid inputs include: \"1\" and \"2\"."
     };
 }
@@ -159,7 +159,7 @@ You are possible at the \“2nd stage\” of the Dunning-Kruger effect. Your con
 Try again!"
         };
     }
-    return {completed: false, output: "Valid inputs include: \"red\" and \"blue\""};;
+    return {completed: false, output: "Valid inputs include: \"1\" and \"2\""};
 }
 
 const workProjectLevelState: LevelState = {
@@ -187,7 +187,7 @@ const diversityLevelFunction1 = (input: string) => {
 "The council consists of senior leaders who pride themselves on the work they’ve done on this front. \
 This a great opportunity for you to drive impact in the company, but also to leave the right impression with important people. \n\
 You can choose to: \n\
-  1. Toe the company line -- the people in the room know far more than you and have been successful. \n\
+  1. Toe the company line -- the people in the room know far more than you and have been successful so far. \n\
   2. Give your honest opinion, even if it questions how the company approaches the issue. \n\
 Valid inputs include: \"1\" and \"2\"."
     };
@@ -213,13 +213,81 @@ you might be falling into a bias of focusing on successes and you need to active
 Try again!"
         };
     }
-    return {completed: false, output: "Valid inputs include: \"red\" and \"blue\""};;
+    return {completed: false, output: "Valid inputs include: \"1\" and \"2\""};
 }
 
 const diversitytLevelState: LevelState = {
     activeFunction: diversityLevelFunction0
 }
 
-const levels = [testLevelState, jobOffersLevelState, ];
+const commitmentLevelFunction0 = (input: string) => {
+    jobOffersLevelState.activeFunction = commitmentLevelFunction1; // TODO: this seems bad
+    return {
+        completed: false, 
+        output: 
+"After a busy month working on a high-stakes project you run into a technical issue with no workaround. \
+You  already committed to the manager that you'll be done next week but now you'll need 3 weeks \
+unless you invest twice your teams' budget for a low probability of success (<10%). What do you do? \n\
+Press any key to continue..."
+    }
+}
+
+const commitmentLevelFunction1 = (input: string) => {
+    commitmentLevelState.activeFunction = commitmentLevelFunction2; // TODO: this seems bad
+    return {
+        completed: false, 
+        output: 
+"You can: \n\
+  1. Notify your manager that you are running behind \n\
+  2. Swing for the fenses as any change to the plan now will likely disrupt even more important company operations \n\
+Valid inputs include: \"1\" and \"2\"."
+    }
+}
+
+const commitmentLevelFunction2 = (input: string) => {
+    if (input === "2") {
+        commitmentLevelState.activeFunction = errorLevelFunction; // TODO: this seems bad
+        return {
+            completed: true, 
+            output: 
+"This option avoids irrationally escalating your commitment and skips the tripwire your company put in place. \n\
+Great job!"
+        };
+    } else if (input === "1") {
+        return {
+            completed: false, 
+            output: 
+"Hmmmm... why do you think the company gave you a budget for this project? \n\
+Try again!"
+        };
+    }
+    return {completed: false, output: "Valid inputs include: \"1\" and \"2\"."};
+}
+
+const commitmentLevelState: LevelState = {
+    activeFunction: commitmentLevelFunction0
+}
+
+const endLevelFunction0 = (input: string) => {
+    return {
+        completed: false, 
+        output: 
+"Congrats! Maybe you're ready to get out there and make some real decision!\n\
+Who knows, you might even make the right ones ;)"
+    }
+}
+
+const endLevelState: LevelState = {
+    activeFunction: endLevelFunction0
+}
+
+const levels = [
+    probabilityLevelState, 
+    jobOffersLevelState, 
+    workProjectLevelState, 
+    diversitytLevelState, 
+    commitmentLevelState, 
+    endLevelState
+];
 
 export {levels}

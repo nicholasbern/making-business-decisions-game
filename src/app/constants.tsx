@@ -53,8 +53,31 @@ const mapLevel3: PositionTile[] = [
     {position: [-1, 10], tile: challengeTile},
 ];
 
+const mapLevel4: PositionTile[] = [
+    {position: [0, 10], tile: roadTile},
+    {position: [1, 10], tile: roadTile},
+    {position: [2, 10], tile: roadTile},
+    {position: [3, 10], tile: roadTile},
+    {position: [4, 10], tile: roadTile},
+    {position: [4, 9], tile: roadTile},
+    {position: [4, 8], tile: roadTile},
+    {position: [4, 7], tile: roadTile},
+    {position: [4, 6], tile: challengeTile},
+];
+
+const mapLevel5: PositionTile[] = [
+    {position: [3, 6], tile: roadTile},
+    {position: [2, 6], tile: roadTile},
+    {position: [1, 6], tile: roadTile},
+    {position: [1, 7], tile: roadTile},
+    {position: [1, 8], tile: roadTile},
+    {position: [1, 9], tile: challengeTile},
+];
+
+
+
 // TODO: figure out a better way to do this
-const maps = [mapLevel1, mapLevel2, mapLevel3];
+const maps = [mapLevel1, mapLevel2, mapLevel3, mapLevel4];
 
 const MapVision = 3;
 

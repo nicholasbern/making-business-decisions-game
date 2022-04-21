@@ -45,7 +45,6 @@ const Terminal = () => {
             </div>
         );
 
-        // TODO: figure out a way to make these names different
         dispatch(processUserInput(processedInput, inputElement));
     };
 

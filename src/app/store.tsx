@@ -3,7 +3,6 @@ import React, {useReducer} from 'react';
 import { IntroMessage } from './constants';
 import {levels, LevelState} from './levels';
 import {maps, PositionTile} from './constants';
-import { stat } from 'fs/promises';
 
 
 interface GameState {
@@ -68,22 +67,38 @@ const gameReducer = (state: GameState, action: GameActions): GameState => {
             let processOutput = "";
             if (state.playingLevel) {
                 const levelReturn = state.levelState.activeFunction(action.payload.input);
+                let newState = {}
                 if (levelReturn.completed) {
                     // TODO: do this better, you nimrod
-                    state.level = state.level + 1;
-                    state.levelState = levels[state.level];
-                    state.playingLevel = false;
-                    // TODO: this is unimaginably bad
-                    state.map = state.map.map(tile => ({...tile, type: "road"}));
-                    // TODO: fix this, it's not working
-                    state.map.push(...maps[state.level]);
-                    state.levelState = levels[state.level];
+                    const level = state.level + 1;
+                    const levelState = levels[level];
+                    const playingLevel = false;
+                    const oldMap = state.map.map(tile => 
+                        ({
+                            ...tile, 
+                            tile: {
+                                ...tile.tile, 
+                                type: "road", 
+                                ascii: tile.tile.type === "road" && tile.tile.ascii !== "^" ? "#" : "^"
+                            }
+                        })
+                    )
+                    const map = [...oldMap, ...maps[level]];
+                    newState = {level, levelState, playingLevel, map}
                 }
                 processOutput = levelReturn.output
+                return {
+                    ...state,
+                    ...newState, 
+                    output: [...state.output, action.payload.inputElement, processOutput]
+                };
             } else {
                 processOutput = "Go to a level if you want to do something. Right now you're kinda in limbo.";
+                return {
+                    ...state, 
+                    output: [...state.output, action.payload.inputElement, processOutput]
+                };
             }
-            return {...state, output: [...state.output, action.payload.inputElement, processOutput]};
         default:
             throw new Error();
     };
