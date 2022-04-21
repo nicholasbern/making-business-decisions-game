@@ -7,14 +7,15 @@
 .gameContainer {
     padding-top: 64px;
     display: flex;
-    justify-content: center;
+    justify-content: center;    
 }
 
 .game {
     overflow: hidden;
-    width: 512px;
-    height: 778px;
+    width: 600px;
     background: rgb(255, 255, 255);
+    padding: 24px;
+    border: 2px dashed grey;
 }
 
 /* TODO: move to separate file */
@@ -23,6 +24,8 @@
     display: flex;
     align-items: center;
     height: 48px;
+
+    border: 2px dashed grey;
 }
 
 /* TODO: move to separate file */
@@ -36,7 +39,6 @@
 
 .badge {
     height: 48px;
-    /* width: 32px; */
 }
 
 /* TODO: move to separate file */

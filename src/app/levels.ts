@@ -195,7 +195,8 @@ Valid inputs include: \"1\" and \"2\"."
 
 const diversityLevelFunction2 = (input: string) => {
     if (input === "2") {
-        diversitytLevelState.activeFunction = errorLevelFunction; // TODO: this seems bad
+        // TODO: for some odd reason, the below function breaks the app
+        // diversitytLevelState.activeFunction = errorLevelFunction; // TODO: this seems bad
         return {
             completed: true, 
             output: 

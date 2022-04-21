@@ -74,10 +74,15 @@ const mapLevel5: PositionTile[] = [
     {position: [1, 9], tile: challengeTile},
 ];
 
+// TODO: fix this
+const mapLevel6: PositionTile[] = [
+    {position: [0, 9], tile: challengeTile},
+];
+
 
 
 // TODO: figure out a better way to do this
-const maps = [mapLevel1, mapLevel2, mapLevel3, mapLevel4];
+const maps = [mapLevel1, mapLevel2, mapLevel3, mapLevel4, mapLevel5, ];
 
 const MapVision = 3;
 
