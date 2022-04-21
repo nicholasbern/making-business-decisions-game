@@ -3,6 +3,7 @@ import React, {useReducer} from 'react';
 import { IntroMessage } from './constants';
 import {levels, LevelState} from './levels';
 import {maps, PositionTile} from './constants';
+import { stat } from 'fs/promises';
 
 
 interface GameState {
@@ -71,7 +72,10 @@ const gameReducer = (state: GameState, action: GameActions): GameState => {
                     // TODO: do this better, you nimrod
                     state.level = state.level + 1;
                     state.levelState = levels[state.level];
+                    state.playingLevel = false;
                     // TODO: this is unimaginably bad
+                    state.map = state.map.map(tile => ({...tile, type: "road"}));
+                    // TODO: fix this, it's not working
                     state.map.push(...maps[state.level]);
                     state.levelState = levels[state.level];
                 }

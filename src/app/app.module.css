@@ -18,6 +18,28 @@
 }
 
 /* TODO: move to separate file */
+.badgesContainer {
+    padding: 4px 4px;
+    display: flex;
+    align-items: center;
+    height: 48px;
+}
+
+/* TODO: move to separate file */
+.badges {
+    width: 384px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.badge {
+    height: 48px;
+    /* width: 32px; */
+}
+
+/* TODO: move to separate file */
 .mapContainer {
     padding: 32px 32px;
     display: flex;

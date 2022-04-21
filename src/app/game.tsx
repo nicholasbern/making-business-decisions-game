@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {Badges} from './badges/badges';
 import {Map} from './map/map';
 import {Terminal} from './terminal/terminal';
 import {StateProvider} from './store';
@@ -11,7 +12,8 @@ const Game = () =>
     <StateProvider>
         <div className={styles.gameContainer}>
             <div className={styles.game}>
-                {/* <Badges/> */}
+                <Badges/>
+                <div className={styles.separator}/>
                 <Map />
                 <div className={styles.separator}/>
                 <Terminal />

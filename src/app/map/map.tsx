@@ -31,6 +31,7 @@ const Path = (props: PathProps) => (
     </div>
 )
 
+// TODO: there is an issue with the visual map not having the right padding
 const createVisualMap = (map: PositionTile[], position: number[]): {visualMap: Tile[][], minRow: number, minColumn: number} => {
     const rows = map.map((positionTile: PositionTile) => positionTile.position[0])
     const columns = map.map((positionTile: PositionTile) => positionTile.position[1])
