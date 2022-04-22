@@ -364,7 +364,7 @@ Valid inputs include: \"1\" and \"2\"."
 }
 
 const commitmentLevelFunction2 = (input: string) => {
-    if (input === "2") {
+    if (input === "1") {
         commitmentLevelState.activeFunction = errorLevelFunction; // TODO: this seems bad
         return {
             completed: true, 
@@ -372,7 +372,7 @@ const commitmentLevelFunction2 = (input: string) => {
 "This option avoids irrationally escalating your commitment and skips the tripwire your company put in place. \n\
 Great job! \n\ "
         };
-    } else if (input === "1") {
+    } else if (input === "2") {
         return {
             completed: false, 
             output: 

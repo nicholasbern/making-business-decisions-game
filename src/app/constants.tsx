@@ -18,8 +18,7 @@ type HeroTile = BaseTile;
 
 export type Tile = InvisibleTile | EmptyTile | RoadTile | ChallengeTile | HeroTile;
 
-const invisibleTile = {type: 'invisible', ascii: '~', color: 'white'} // TODO: use or delete
-const emptyTile: Tile = {type: 'empty', ascii: '~', color: 'grey'}
+const emptyTile: EmptyTile = {type: 'empty', ascii: '.', color: 'grey'}
 const roadTile: RoadTile = {type: 'road', ascii: '#', color: 'black', available: false}
 const challengeTile: ChallengeTile = {type: 'challenge', ascii: '$', color: 'black', challenge: 0}
 const endTile: Tile = {type: 'challenge', ascii: '\u2618', color: '#006848'}
@@ -39,6 +38,7 @@ const mapLevel1: PositionTile[] = [
     {position: [-2, 2], tile: roadTile},
     {position: [-2, 3], tile: challengeTile},
     {position: [-4, 3], tile: endTile},
+    // {position: [0, 2], tile: {emptyTile, ascii: "\26A4"}},
 ];
 
 const mapLevel2: PositionTile[] = [

@@ -17,8 +17,8 @@ const initialGameState: GameState = {
     level: 0,
     levelState: levels[0], // TODO: figure out way to complete the game
     playingLevel: false,
-    map: maps[0],
-    // map: maps.reduce((accumulator, value) => accumulator.concat(value), []), // TODO: test to show map
+    // map: maps[0],
+    map: maps.reduce((accumulator, value) => accumulator.concat(value), []), // TODO: test to show map
     output: IntroMessage
 };
 
@@ -75,7 +75,7 @@ const gameReducer = (state: GameState, action: GameActions): GameState => {
                     const levelState = levels[level];
                     const playingLevel = false;
                     const oldMap = state.map.map(tile => {
-                        if (tile.tile.ascii === "\u2618" || tile.tile.ascii === "I") {
+                        if (tile.tile.ascii === "\u2618" || tile.tile.ascii === "I" || tile.tile.type === "empty") {
                             return tile;
                         }
                         return {
