@@ -13,6 +13,36 @@ const errorLevelFunction = (input: string) => {
     return {completed: false, output: "ERROR, this shouldn't be showing up!!!"};
 }
 
+const styleLevelFunction0 = (input: string) => {
+    styleLevelState.activeFunction = styleLevelFunction1; // TODO: this seems bad
+    return {
+        completed: false, 
+        output: 
+"You've made it to the first decision point! \n\
+Before we start making actual decisions, it's important to understand how you make decisions. \
+What are three adjectives that describe how you naturally approach decisions? \n\
+Valid inputs include: 3 adjectives separated by commas."
+    }
+}
+
+const styleLevelFunction1 = (input: string) => {
+    styleLevelState.activeFunction = errorLevelFunction; // TODO: this seems bad
+    return {
+        completed: true, 
+        output: 
+"Got it! You are naturally " + input + " when you make decisions. \n\
+No wrong answers here. It's important to understand how you approach decisions so that you can \
+mitigate your biases. Emotions unavoidably inform what we choose and we need to be mindful lest they \
+overwhelm us. \n\
+You'll need to keep your impulses in mind for the next decisions! \n\
+Great job! \n\ "
+    }
+}
+
+const styleLevelState: LevelState = {
+    activeFunction: styleLevelFunction0
+}
+
 const probabilityLevelFunction0 = (input: string) => {
     probabilityLevelState.activeFunction = probabilityLevelFunction1; // TODO: this seems bad
     return {
@@ -31,9 +61,9 @@ const probabilityLevelFunction1 = (input: string) => {
         completed: false, 
         output: 
 "You can: \n\
-  1. put in a 0.25 Euro for a stick of gum \n\
-  2. guess the machine is cheaper than usual \n\
-  3. guess the machine is more expensive than usual \n\
+  1. Put in a 0.25 Euro for a stick of gum \n\
+  2. Guess the machine is cheaper than usual \n\
+  3. Guess the machine is more expensive than usual \n\
 Valid inputs include: \"1\", \"2\", and \"3\""
     };
 }
@@ -54,7 +84,10 @@ const probabilityLevelFunction2 = (input: string) => {
         return {completed: false, output: "Oops! Do you need to buy more gum to figure out the answer? Try again!"};
     } else if (input === "3") {
         probabilityLevelState.activeFunction = errorLevelFunction; // TODO: this seems bad
-        return {completed: true, output: "That's correct, the machine only work 5% of the time, so that's some expensive gum. Great job!"};
+        return {completed: true, output: 
+"That's correct, the machine only works 5% of the time, so that's some expensive gum. \n\
+Great job! \n "
+        };
     } 
     return {completed: false, output: "Valid inputs include: \"1\", \"2\", and \"3\""};
 }
@@ -68,8 +101,8 @@ const jobOffersLevelFunction0 = (input: string) => {
     return {
         completed: false, 
         output: 
-"Congrats on your job offers! Don't get cocky! \
-Now it's time to choose and you reach out to some alums to get their perspective. \n\
+"Your gum-interrupted interviews went great and now you have some offers! But don't get cocky! \
+Now it's time to choose between them so you reach out to some alums to get their perspective. \n\
 To best evaluate your offers, which INSEAD alums should you talk to? \n\
 Press any key to continue..."
     }
@@ -94,8 +127,8 @@ const jobOffersLevelFunction2 = (input: string) => {
         return {
             completed: true, 
             output: 
-"That's a great choice and will help you eliminate selection bias by getting a ballanced overview. \n\
-Great job!"
+"That's a great choice and will help you eliminate selection bias by getting a balanced overview. \n\
+Great job! \n "
         };
     } else if (input === "1" || input === "2") {
         return {
@@ -113,14 +146,64 @@ const jobOffersLevelState: LevelState = {
     activeFunction: jobOffersLevelFunction0
 }
 
+const careerStartLevelFunction0 = (input: string) => {
+    careerStartLevelState.activeFunction = careerStartLevelFunction1; // TODO: this seems bad
+    return {
+        completed: false, 
+        output: 
+"One offer is from your dream firm. However, you've gotten kicked down to a junior level, \
+whereas your other offers were for more senior positions. HR assured you a stellar promotion path \
+so you won't be junior very long. What would you do in order to make a decision? \n\
+Press any key to continue: "
+    }
+}
+
+const careerStartLevelFunction1 = (input: string) => {
+    careerStartLevelState.activeFunction = careerStartLevelFunction2; // TODO: this seems bad
+    return {
+        completed: false, 
+        output: 
+"You can: \n\
+  1. Follow your dream. You came this far, one small obsticle shouldn't disuade you from the career path you envisioned \n\
+  2. Look at people with your experience who started around the same time and evaluate their growth. \n\
+Valid inputs include: \"1\" and \"2\"."
+    }
+}
+
+const careerStartLevelFunction2 = (input: string) => {
+    if (input === "2") {
+        careerStartLevelState.activeFunction = errorLevelFunction; // TODO: this seems bad
+        return {
+            completed: true, 
+            output: 
+"Good decision! You might think you're special, but you still need as much information as possible. \
+While it might make sense and be tempting to follow your dream, it is good to take a step back \
+and critically evaluate your options. \n\
+Great job! \n "
+        };
+    } else if (input === "1") {
+        return {
+            completed: false, 
+            output: 
+"It seems like you might be falling for confirmation bias. Do you have enough information to make that call? \n\
+Try again!"
+        };
+    }
+    return {completed: false, output: "Valid inputs include: \"1\" and \"2\"."};
+}
+
+const careerStartLevelState: LevelState = {
+    activeFunction: careerStartLevelFunction0
+}
+
 const workProjectLevelFunction0 = (input: string) => {
     workProjectLevelState.activeFunction = workProjectLevelFunction1; // TODO: this seems bad
     return {
         completed: false, 
         output: 
-"You receive an email from your director about bidding on a project in New York. \
-The project is complex and will most likely require people who have done similar projects before. \
-However, you never learned those techniques in your professional life. \n\
+"You've started your job and you receive an email from your director about a project in New York. \
+The work would be complex and likely require people who have done similar projects before. \
+You need experience, but this looks daunting. \n\
 Press any key to continue..."
     };
 }
@@ -130,10 +213,10 @@ const workProjectLevelFunction1 = (input: string) => {
     return {
         completed: false, 
         output: 
-"Do you think your technical skills would allow you to take on this project? \n\
+"Do you think your technical skills will allow you to take on this project? \n\
 You can tell your director: \n\
-  1. \"Yes\". You're sure you can understand these techniques on the spot. Also, your boss wants your team to look good this year, so you can help our team achieve the goal. \n\
-  2. \"I'm not sure\". You think you need to reevaluate a bit. Maybe you will ask someone who has done similar projects before. \n\
+  1. \"Yes\". You're sure you can get up to speed. Also, your boss has been pressuring your team to perform, so you need this one. \n\
+  2. \"I'm not sure\". You need to reevaluate a bit. Maybe you can ask someone who has done similar projects before. \n\
 Valid inputs include: \"1\" and \"2\"."
     };
 }
@@ -145,17 +228,16 @@ const workProjectLevelFunction2 = (input: string) => {
             completed: true, 
             output: 
 "Smart choice! You know that you don’t have enough skill, and allow yourself to accept the reality. \
-You may want to check with your team and boss to see whether they have equip with enough skills to complete the project. \n\
-Great job!"
+You may want to check with your team and boss to see whether they can support you to complete the project. \n\
+Great job! \n "
         };
     } else if (input === "1") {
         return {
             completed: false, 
             output: 
-"You are overconfident about your ability to make this judgment. \
-The organizational pressures give you motivation and courage. \
-You are likely to fail because the project requires people who have done similar projects. \
-You are possible at the \“2nd stage\” of the Dunning-Kruger effect. Your confidence does not imply your competency. \n\
+"You might be overconfident about your ability to make this judgment. \
+What advice would you give a friend? \
+It's possible you've fallen for the \“2nd stage\” of the Dunning-Kruger effect. \n\
 Try again!"
         };
     }
@@ -202,7 +284,7 @@ const diversityLevelFunction2 = (input: string) => {
             output: 
 "Even though you don't have all the context, your background adds necessary counterpoint to the discussion. \
 Likewise, companies with diverse workplaces more successfully problem-solve, so 40% shouldn't be your ending point. \n\
-Great job!"
+Great job! \n "
         };
     } else if (input === "1") {
         return {
@@ -221,8 +303,44 @@ const diversitytLevelState: LevelState = {
     activeFunction: diversityLevelFunction0
 }
 
+const expertLevelFunction0 = (input: string) => {
+    expertLevelState.activeFunction = expertLevelFunction1; // TODO: this seems bad
+    return {
+        completed: false, 
+        output: 
+"What is the capital of Burkina Faso. That's it. That's the question. A client asked your team just to test you. \n\
+I know you don't know the answer. But someone on your team (i.e. in this room) does. \
+You need to figure out who quickly and drown out the fake experts before the client get's annoyed. \n\
+Ask around and NO CHEATING! \n\
+Valid inputs include: \"Ouagadougou\", \"Abuja\", and \"Conakry\"."
+    }
+}
+
+const expertLevelFunction1 = (input: string) => {
+    if (input === "ouagadougou") {
+        expertLevelState.activeFunction = errorLevelFunction; // TODO: this seems bad
+        return {
+            completed: true,
+            output: 
+"Nice! You found the expect and drowned out the fakers. \n\
+Great job! \n "
+        }
+    } else {
+        return {
+            completed: false,
+            output: 
+"Ouch, not only are client and the Burkinabè people upset, but it sounds like you fell for a fake expert. \n\
+Try again!"
+        }
+    }
+}
+
+const expertLevelState: LevelState = {
+    activeFunction: expertLevelFunction0
+}
+
 const commitmentLevelFunction0 = (input: string) => {
-    jobOffersLevelState.activeFunction = commitmentLevelFunction1; // TODO: this seems bad
+    commitmentLevelState.activeFunction = commitmentLevelFunction1; // TODO: this seems bad
     return {
         completed: false, 
         output: 
@@ -252,7 +370,7 @@ const commitmentLevelFunction2 = (input: string) => {
             completed: true, 
             output: 
 "This option avoids irrationally escalating your commitment and skips the tripwire your company put in place. \n\
-Great job!"
+Great job! \n\ "
         };
     } else if (input === "1") {
         return {
@@ -273,7 +391,8 @@ const endLevelFunction0 = (input: string) => {
     return {
         completed: false, 
         output: 
-"Congrats! Maybe you're ready to get out there and make some real decision!\n\
+"Congrats! You've made it to the end, which is... somewhere because Nicholas wanted to generate the map randomly so it could be anwhere. \n\
+You're ready to get out there and make some real decision! \n\
 Who knows, you might even make the right ones ;)"
     }
 }
@@ -283,10 +402,13 @@ const endLevelState: LevelState = {
 }
 
 const levels = [
+    styleLevelState,
     probabilityLevelState, 
     jobOffersLevelState, 
+    careerStartLevelState, 
     workProjectLevelState, 
     diversitytLevelState, 
+    expertLevelState, 
     commitmentLevelState, 
     endLevelState
 ];

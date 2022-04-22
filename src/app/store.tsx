@@ -18,6 +18,7 @@ const initialGameState: GameState = {
     levelState: levels[0], // TODO: figure out way to complete the game
     playingLevel: false,
     map: maps[0],
+    // map: maps.reduce((accumulator, value) => accumulator.concat(value), []), // TODO: test to show map
     output: IntroMessage
 };
 
@@ -60,7 +61,7 @@ const gameReducer = (state: GameState, action: GameActions): GameState => {
         case ActionType.EnterLevel:
             // TODO: play an opening bit of the game that just returns a string
             const {output} = state.levelState.activeFunction("");
-            return {...state, playingLevel: true, output: [...state.output, "Here's a new game, let's try it out.", output]};
+            return {...state, playingLevel: true, output: [...state.output, output]};
         case ActionType.LeaveLevel:
             return {...state, playingLevel: false, output: [...state.output, "Leaving the level. Go back to keep trying."]};
         case ActionType.ProcessInput:
@@ -73,16 +74,19 @@ const gameReducer = (state: GameState, action: GameActions): GameState => {
                     const level = state.level + 1;
                     const levelState = levels[level];
                     const playingLevel = false;
-                    const oldMap = state.map.map(tile => 
-                        ({
+                    const oldMap = state.map.map(tile => {
+                        if (tile.tile.ascii === "\u2618" || tile.tile.ascii === "I") {
+                            return tile;
+                        }
+                        return {
                             ...tile, 
                             tile: {
                                 ...tile.tile, 
                                 type: "road", 
                                 ascii: tile.tile.type === "road" && tile.tile.ascii !== "^" ? "#" : "^"
                             }
-                        })
-                    )
+                        };
+                    })
                     const map = [...oldMap, ...maps[level]];
                     newState = {level, levelState, playingLevel, map}
                 }

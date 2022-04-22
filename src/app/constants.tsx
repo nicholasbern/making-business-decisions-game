@@ -22,6 +22,7 @@ const invisibleTile = {type: 'invisible', ascii: '~', color: 'white'} // TODO: u
 const emptyTile: Tile = {type: 'empty', ascii: '~', color: 'grey'}
 const roadTile: RoadTile = {type: 'road', ascii: '#', color: 'black', available: false}
 const challengeTile: ChallengeTile = {type: 'challenge', ascii: '$', color: 'black', challenge: 0}
+const endTile: Tile = {type: 'challenge', ascii: '\u2618', color: '#006848'}
 const heroTile: Tile = {type: 'hero', ascii: '@', color: '#006848'}
 
 export interface PositionTile {
@@ -31,12 +32,13 @@ export interface PositionTile {
 
 // TODO: move this around
 const mapLevel1: PositionTile[] = [
-    {position: [0, 0], tile: roadTile}, 
+    {position: [0, 0], tile: {...roadTile, ascii: "I"}}, 
     {position: [-1, 0], tile: roadTile}, 
     {position: [-2, 0], tile: roadTile},
     {position: [-2, 1], tile: roadTile},
     {position: [-2, 2], tile: roadTile},
     {position: [-2, 3], tile: challengeTile},
+    {position: [-4, 3], tile: endTile},
 ];
 
 const mapLevel2: PositionTile[] = [
@@ -68,21 +70,60 @@ const mapLevel4: PositionTile[] = [
 const mapLevel5: PositionTile[] = [
     {position: [3, 6], tile: roadTile},
     {position: [2, 6], tile: roadTile},
-    {position: [1, 6], tile: roadTile},
-    {position: [1, 7], tile: roadTile},
-    {position: [1, 8], tile: roadTile},
-    {position: [1, 9], tile: challengeTile},
+    {position: [2, 5], tile: roadTile},
+    {position: [2, 4], tile: roadTile},
+    {position: [2, 3], tile: challengeTile},
 ];
 
-// TODO: fix this
 const mapLevel6: PositionTile[] = [
-    {position: [0, 9], tile: challengeTile},
+    {position: [2, 2], tile: roadTile},
+    {position: [2, 1], tile: roadTile},
+    {position: [2, 0], tile: roadTile},
+    {position: [2, -1], tile: roadTile},
+    {position: [3, -1], tile: roadTile},
+    {position: [4, -1], tile: roadTile},
+    {position: [5, -1], tile: challengeTile},
 ];
 
+const mapLevel7: PositionTile[] = [
+    {position: [5, -2], tile: roadTile},
+    {position: [5, -3], tile: roadTile},
+    {position: [5, -4], tile: roadTile},
+    {position: [4, -4], tile: roadTile},
+    {position: [3, -4], tile: roadTile},
+    {position: [2, -4], tile: roadTile},
+    {position: [1, -4], tile: challengeTile},
+];
 
+const mapLevel8: PositionTile[] = [
+    {position: [0, -4], tile: roadTile},
+    {position: [-1, -4], tile: roadTile},
+    {position: [-2, -4], tile: roadTile},
+    {position: [-3, -4], tile: roadTile},
+    {position: [-4, -4], tile: roadTile},
+    {position: [-4, -3], tile: roadTile},
+    {position: [-4, -2], tile: challengeTile}
+]
+
+const mapLevel9: PositionTile[] = [
+    {position: [-4, -1], tile: roadTile},
+    {position: [-4, 0], tile: roadTile},
+    {position: [-4, 1], tile: roadTile},
+    {position: [-4, 2], tile: roadTile}
+];
 
 // TODO: figure out a better way to do this
-const maps = [mapLevel1, mapLevel2, mapLevel3, mapLevel4, mapLevel5, ];
+const maps = [
+    mapLevel1, 
+    mapLevel2, 
+    mapLevel3, 
+    mapLevel4, 
+    mapLevel5, 
+    mapLevel6,
+    mapLevel7,
+    mapLevel8,
+    mapLevel9
+];
 
 const MapVision = 3;
 
@@ -108,6 +149,10 @@ const commands: {[key in EchoCommand]: JSX.Element} = {
 
 const TerminalPrompt = '>';
 
-const IntroMessage = ["Welcome to the MDM game. A series of levels in an open world will test your ability to make decisions"];
+const IntroMessage = [
+    "Welcome to the MDM game, a test of you're ability to make decisions and apply what you learned in Management Decision Making!",
+    "You see a path ahead of you. Let's see what's at that \"#\" sign, it looks important.",
+    "If you get stuck, type \"help\". \n "
+];
 
 export {emptyTile, roadTile, challengeTile, heroTile, TerminalPrompt, maps, MapVision, IntroMessage}
